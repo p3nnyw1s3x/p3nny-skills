@@ -19,11 +19,13 @@ Three steps, in this order, at the top of every session:
    result once — a 64k window gives `Working budget: 32k tokens (~128KB)`.
    Compute it from the real number; don't copy the example. Skip this step only
    for a question you can answer without opening a file.
-2. **Record the baseline.** About to write anything, in a git repo? Run
-   `git status --short` and paste its output into your first message. Whatever
-   is dirty at this moment is the user's work, not yours — you need that list
-   *in writing* to tell your changes from theirs at verification time (§6).
-   Do not plan to remember it; on a small window you will not.
+2. **Record the baseline.** About to write anything? Run `git status --short`
+   and paste its output into your first message. Whatever is dirty at this
+   moment is the user's work, not yours — you need that list *in writing* to
+   tell your changes from theirs at verification time (§6). Do not plan to
+   remember it; on a small window you will not. If the command answers
+   `fatal: not a git repository`, that is an answer, not a failure: you have no
+   baseline, so use the non-git protocol in §6 and say so in your report.
 3. **Write the spec** (§1), then start the work.
 
 Steps 1 and 2 cost one tool call each. Skipping them costs far more later.
@@ -140,6 +142,18 @@ This is the **only** check that enforces §3. A green test suite says nothing
 about scope: tests pass just as happily when you have also edited three files
 nobody asked you to touch.
 
+**Untracked files you didn't author** — `__pycache__/`, `.pytest_cache/`,
+coverage data, build output — appear after you run tests or a build. They are
+side effects of verifying, not deliverables and not a scope violation under §3.
+Don't list them under `Files:`, don't delete them, don't stage them. Only a file
+you deliberately wrote counts as yours.
+
+**Created a file?** `git diff` will not show it — a new file is untracked, has
+no hunks, and an empty diff is not evidence that you wrote anything. Verify it
+the only way that works: `git status --short` to confirm the `??` line is there,
+then re-read the file you wrote and quote its path and line count. Never let an
+empty diff stand as the verification for a file-creation task.
+
 Not a git repo? Then say so in the report, list every path you wrote from your
 own record of the edits you made, and re-read each changed range — not the whole
 files (§5).
@@ -160,9 +174,26 @@ Never report success on intent. Only on observation.
 ## 7. Recovery
 
 - Something breaks → **stop**. Don't patch over a bad edit.
-- Undo **only your own edits**, naming each path explicitly:
-  `git checkout -- <exact/path/one> <exact/path/two>`. A file you created: delete
-  that exact path, nothing else. Ask before running it.
+- A non-zero exit is not automatically a break. `grep` with no match, `git
+  status` outside a repo, a test failing for the reason you were asked to fix —
+  read the output and judge, rather than halting on the exit code alone.
+- **Check your baseline before you undo anything.** `git checkout --` restores a
+  whole file, not your hunk — on a file that was already dirty, it deletes the
+  user's in-progress work along with your edit, permanently. Which undo is safe
+  depends entirely on what the baseline says about that path:
+  - **Clean in the baseline** → `git checkout -- <exact/path/one> <exact/path/two>`,
+    naming each path. Ask before running it.
+  - **Dirty in the baseline** → **never** `git checkout` it. Reverse your own
+    edit with the same editing tool you used to make it — you have the original
+    text in the diff you captured (§6). Git cannot do this for you at hunk
+    granularity; you must undo it the way you did it.
+  - **Absent from the baseline** (a file you created) → delete that exact path,
+    nothing else. If the path existed before you wrote to it, it is not yours to
+    delete — treat it as the dirty case.
+- Can't tell which case a path falls under, or can't cleanly reverse your edit?
+  **Stop and hand it back**, naming the file and describing exactly what you
+  changed. A user who undoes it manually loses nothing; a wrong `checkout`
+  loses their work for good.
 - **Never** `git checkout .`, `git reset --hard`, `git clean`, or any whole-tree
   revert. The working tree holds uncommitted work you did not write and cannot
   see. Those commands delete it permanently — it is in no commit to recover from,
@@ -228,6 +259,8 @@ Keep it factual. No filler, no self-congratulation.
 ## Anti-patterns — do not do these
 
 - Reading files before you know your budget, or editing before the baseline is written down
+- `git checkout --` on a file that was already dirty — that is the user's work, deleted
+- Letting an empty `git diff` stand as proof for a file you created
 - Claiming success without running a check
 - Summarizing a command's result instead of quoting its output
 - Inventing a command the project doesn't have, or writing output you did not see
