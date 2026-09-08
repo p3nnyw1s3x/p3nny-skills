@@ -28,7 +28,7 @@ work quality doesn't drop just because the model did.
 ### Install
 
 ```bash
-npx skills add p3nnyw1s3x/skills --skill qwen-optimize
+npx skills add p3nnyw1s3x/p3nny-skills
 ```
 
 Uses the [skills.sh](https://skills.sh/) CLI to pull
