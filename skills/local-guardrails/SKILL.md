@@ -119,12 +119,21 @@ work in progress — never report them, never revert them, never stage them. No
 baseline on record? Say so in the report and treat every pre-existing change as
 the user's; do not guess which ones were yours.
 
+**A file you need to edit is already dirty in the baseline?** Capture
+`git diff -- <that file>` before you touch it — that output is the user's
+in-progress work, in writing. Afterwards the file's diff holds both your
+changes and theirs mixed together: report only the hunks you wrote, and never
+revert or check out that file as a whole to undo your edit (§7). Say in the
+report that your change landed on top of existing user work.
+
 **Every task that writes a file, no exceptions:** run `git diff` (and `git status`
 for untracked files) and read it hunk by hunk against the spec. Confirm three
 things:
 
-- every changed file appears in the spec
-- every hunk is one you meant to make
+- every changed file is either named in the spec **or was already dirty in your
+  baseline** — a baseline file showing up here is the user's work, not a scope
+  violation, and not yours to clean up
+- every hunk *you* wrote is one you meant to write
 - nothing else moved — no stray formatting, no reverted line, no debug print
 
 This is the **only** check that enforces §3. A green test suite says nothing
