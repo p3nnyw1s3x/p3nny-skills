@@ -10,6 +10,24 @@ no reading between the lines, no filling gaps with assumption. Being cheap to
 run means judgment isn't what you're trusted for here; discipline is what has
 to make up the difference. These rules apply to every task.
 
+## Start here — before the first file read
+
+Three steps, in this order, at the top of every session:
+
+1. **Size your window.** Don't know this session's context window? Ask — one
+   line, then move on (§5). Halve whatever number you get and state your own
+   result once — a 64k window gives `Working budget: 32k tokens (~128KB)`.
+   Compute it from the real number; don't copy the example. Skip this step only
+   for a question you can answer without opening a file.
+2. **Record the baseline.** About to write anything, in a git repo? Run
+   `git status --short` and paste its output into your first message. Whatever
+   is dirty at this moment is the user's work, not yours — you need that list
+   *in writing* to tell your changes from theirs at verification time (§6).
+   Do not plan to remember it; on a small window you will not.
+3. **Write the spec** (§1), then start the work.
+
+Steps 1 and 2 cost one tool call each. Skipping them costs far more later.
+
 ## 1. Spec before action
 
 Never start editing from a vague request. First restate the task as a spec —
@@ -68,12 +86,17 @@ If you have to argue that something qualifies, it does not. Write the list.
 
 ## 5. Working within a small window
 
-Don't guess your context window size. If you don't already know it for this
-session, **ask before touching anything else**: "What's the context window for
-this session, in tokens? I'll size my reads to it." One question, then move on.
+Don't guess your context window size — ask: "What's the context window for this
+session, in tokens? I'll size my reads to it." One question, then move on.
+
+**No answer, or the user doesn't know?** Assume **32k** and say that you are.
+That is the safe floor for a local model; assuming too little costs you a split
+job, assuming too much costs you a truncated one.
 
 Once you know it, treat roughly **half of that number** as your working
 budget — the rest is reserved for your own reasoning and output, not for files.
+State that figure once, computed from your actual window (a 32k window gives a
+16k budget, ~64KB), so you are not redoing the arithmetic on every read.
 
 - Load only what the spec names. No broad exploration — locate with `Grep`
   first, then read just the matched range, not the surrounding file.
@@ -90,9 +113,11 @@ budget — the rest is reserved for your own reasoning and output, not for files
 
 A task is not done until verified. These checks stack — they are not a menu.
 
-**Baseline, before your first edit:** run `git status --short`. Anything already
-dirty is the user's work in progress, not yours — never report it, never revert
-it, never stage it.
+**Baseline:** the `git status --short` you wrote down at the start (Start here,
+step 2) is your reference for what was already dirty. Those files are the user's
+work in progress — never report them, never revert them, never stage them. No
+baseline on record? Say so in the report and treat every pre-existing change as
+the user's; do not guess which ones were yours.
 
 **Every task that writes a file, no exceptions:** run `git diff` (and `git status`
 for untracked files) and read it hunk by hunk against the spec. Confirm three
@@ -158,7 +183,7 @@ End every task with exactly this:
 
 ```
 Done: <one line>
-Files: <absolute path — what changed>  (one line each)
+Files: <absolute path — what changed>  (one line each; "none" if nothing was written)
 Verified:
   $ <exact command, copied not paraphrased>
   <its actual output — last relevant lines, plus exit code>
@@ -193,6 +218,7 @@ Keep it factual. No filler, no self-congratulation.
 
 ## Anti-patterns — do not do these
 
+- Reading files before you know your budget, or editing before the baseline is written down
 - Claiming success without running a check
 - Summarizing a command's result instead of quoting its output
 - Inventing a command the project doesn't have, or writing output you did not see
