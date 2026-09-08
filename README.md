@@ -11,10 +11,11 @@ Operating discipline for local, self-hosted models in the ~128k-context class
 (Claude Code, `claude-9arm`, opencode, and other tools in the skills.sh
 ecosystem).
 
-Adapted from the [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
+Inspired by the [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
 skill in [thananon/9arm-skills](https://github.com/thananon/9arm-skills) by
 9arm (Arm Patinyasakdikul) — the `claude-9arm` setup for running Claude Code
-pointed at a Qwen backend.
+pointed at a Qwen backend. Different premise (this session *is* Qwen, rather
+than delegating to it) and independent text.
 
 ### When to use this
 
@@ -46,6 +47,7 @@ say something like "use qwen-optimize for this" when you're running under
 
 ### Credit
 
-Adapted from [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
+Inspired by [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
 in [thananon/9arm-skills](https://github.com/thananon/9arm-skills) by
-9arm / Arm Patinyasakdikul.
+9arm / Arm Patinyasakdikul — the `claude-9arm` tooling this skill runs under.
+No text is shared between the two; this one stands on its own rules.

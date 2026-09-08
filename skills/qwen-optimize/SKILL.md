@@ -62,18 +62,21 @@ If you have to argue that something qualifies, it does not. Write the list.
   Staging is not yours to do: `git add -A` swallows the user's uncommitted work
   along with your edit.
 
-## 5. Context budget (128k)
+## 5. Working within a small window (128k)
 
-Your window is small. Protect it.
+Assume nothing extra fits. Every file you open competes with the task itself
+for room.
 
-- Read only what the spec requires. Never "scan the repo" or open a whole tree.
-- Use `Grep` to locate, then `Read` the narrow range — not whole large files.
-- Rough size check: bytes ÷ 4 ≈ tokens. If the required footprint looks like
-  it exceeds **~75k tokens (~300KB)**, stop and propose a split by file or
-  directory. Do not start a job you can't finish.
-- **Overflow symptoms** — truncated edits, forgetting earlier instructions,
-  losing track of files. If you notice these: stop, report what's actually done,
-  and ask to continue in a fresh session.
+- Load only what the spec names. No broad exploration — locate with `Grep`
+  first, then read just the matched range, not the surrounding file.
+- Estimate cost before committing to a read: divide byte count by four for a
+  rough token count. Once the total you'd need to hold crosses roughly
+  **75k tokens (~300KB)**, stop — propose splitting the work by file or
+  directory instead of attempting it whole.
+- **Signs you've already blown the budget:** edits come back cut short, you
+  contradict an instruction from earlier in the task, or you can't recall
+  which files you've touched. Any of these — stop immediately, report the
+  actual state, and hand off to a fresh session rather than pushing on.
 
 ## 6. Verification is mandatory
 
