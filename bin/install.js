@@ -4,7 +4,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const SKILL_NAME = "qwen-agent-optimize";
+const SKILL_NAME = "qwen-optimize";
 const source = path.join(__dirname, "..", "SKILL.md");
 const targetDir = path.join(os.homedir(), ".claude", "skills", SKILL_NAME);
 const target = path.join(targetDir, "SKILL.md");

@@ -1,6 +1,10 @@
-# qwen-agent-optimize
+# qwen-optimize
 
 Fallback operating-discipline skill for Claude Code.
+
+Adapted from [9arm](https://github.com/thananon) (Arm Patinyasakdikul)'s
+`claude-9arm` setup — running Claude Code pointed at a Qwen backend as a
+stand-in when the Claude API is unavailable.
 
 ## When to use this
 
@@ -14,14 +18,18 @@ work quality doesn't drop just because the model did.
 ## Install
 
 ```bash
-npx qwen-agent-optimize
+npx qwen-optimize
 ```
 
-Copies `SKILL.md` into `~/.claude/skills/qwen-agent-optimize/`. Claude Code
+Copies `SKILL.md` into `~/.claude/skills/qwen-optimize/`. Claude Code
 (and `claude-9arm`, which is the same CLI) picks it up on the next session.
 
 ## Use
 
 Once installed, invoke it like any other skill — e.g. ask for it by name, or
-say something like "use qwen-agent-optimize for this" when you're running
-under `claude-9arm`.
+say something like "use qwen-optimize for this" when you're running under
+`claude-9arm`.
+
+## Credit
+
+Built on top of the `claude-9arm` idea by [9arm / Arm Patinyasakdikul](https://github.com/thananon).

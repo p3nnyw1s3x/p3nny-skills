@@ -1,9 +1,9 @@
 {
-  "name": "qwen-agent-optimize",
+  "name": "qwen-optimize",
   "version": "0.1.0",
   "description": "Fallback operating-discipline skill for Claude Code: install it so a Qwen-backed session (e.g. via claude-9arm) keeps spec-first, verified, low-drift work when the Claude API is rate-limited.",
   "bin": {
-    "qwen-agent-optimize": "bin/install.js"
+    "qwen-optimize": "bin/install.js"
   },
   "files": [
     "SKILL.md",

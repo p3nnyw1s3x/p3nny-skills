@@ -1,5 +1,5 @@
 ---
-name: qwen-agent-optimize
+name: qwen-optimize
 description: Operating discipline for a Qwen-backed Claude Code session (e.g. running via claude-9arm as a fallback when the Claude API is rate-limited). Enforces spec-first intake, tight scope, context budgeting, mandatory verification, and honest reporting. Invoke it explicitly at the start of such a session — it does not load on its own.
 ---
 
