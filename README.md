@@ -18,11 +18,14 @@ work quality doesn't drop just because the model did.
 ## Install
 
 ```bash
-npx qwen-optimize
+npx skills add p3nnyw1s3x/qwen-optimize-skills
 ```
 
-Copies `SKILL.md` into `~/.claude/skills/qwen-optimize/`. Claude Code
-(and `claude-9arm`, which is the same CLI) picks it up on the next session.
+Uses the [skills.sh](https://skills.sh/) CLI to pull this repo's `SKILL.md`
+straight from GitHub into `~/.claude/skills/qwen-optimize/` (the install
+folder name comes from the `name` field in `SKILL.md`'s frontmatter, not the
+repo name). Claude Code — and `claude-9arm`, which is the same CLI — picks it
+up on the next session.
 
 ## Use
 
