@@ -1,4 +1,4 @@
-# skills
+# p3nny-skills
 
 Personal collection of agent skills for Claude Code and other skills.sh-
 compatible harnesses (opencode, etc.). Each skill lives in its own folder
@@ -28,28 +28,58 @@ Installing this skill gives that Qwen session the same spec-first, scope-
 disciplined, verify-before-reporting rules a Claude session would follow, so
 work quality doesn't drop just because the model did.
 
-### Install
+## assumption-ledger
+
+Makes an agent write down what it guessed. When a task forces a guess that
+would be expensive to get wrong — an undocumented business rule, a data shape
+nobody specified, intent inferred from code with no issue to read — the agent
+records it in a committed `ASSUMPTIONS.md` with its confidence, what breaks if
+it's wrong, and a *runnable* way to check it. The change then ships with a
+short summary of every guess underneath it, ordered by blast radius.
+
+The point isn't paperwork. Code that passes every test can still be wrong,
+because the assumption underneath it was wrong, and nothing in a normal diff
+shows a reviewer where the author was guessing.
+
+### When to use this
+
+It fires on its own, by design — you can't ask for it, because you can't see
+the moment a model starts guessing. Two hard limits keep it from turning into
+noise: guesses that are cheap to reverse never get an entry, and guesses about
+irreversible damage (data loss, money movement, security boundaries, one-way
+migrations) aren't allowed to become entries at all — those stop and ask you.
+
+Its output is most useful in two places: hand a reviewer the summary before
+they read the diff, and read the ledger before the diff when something breaks
+in production. The cause is often already sitting there, marked `unverified`.
+
+## Install
 
 ```bash
 npx skills add p3nnyw1s3x/p3nny-skills
 ```
 
-Uses the [skills.sh](https://skills.sh/) CLI to pull
-`skills/local-guardrails/SKILL.md` from this repo into the calling tool's
-skills folder (e.g. `~/.claude/skills/local-guardrails/` for Claude Code — the
-install folder name comes from the `name` field in the file's frontmatter, not
-the repo or folder name). Picked up on the next session by any of the CLIs
-`skills.sh` supports — Claude Code, `claude-9arm`, and opencode included.
+Uses the [skills.sh](https://skills.sh/) CLI. With more than one skill in the
+repo it lists what's available and lets you pick; `--skill local-guardrails`
+takes just one, `--all` takes everything, and `-g` installs user-level instead
+of into the current project.
 
-### Use
+Each skill lands in a folder named after the `name` field in its frontmatter
+(e.g. `~/.claude/skills/assumption-ledger/` for Claude Code), not after the
+repo or the folder it sits in here. Picked up on the next session by any of
+the CLIs `skills.sh` supports — Claude Code, `claude-9arm`, and opencode
+included.
 
-Once installed, invoke it like any other skill — e.g. ask for it by name, or
-say something like "use local-guardrails for this" when you're running under
-`claude-9arm`.
+## Use
 
-### Credit
+`assumption-ledger` is meant to load itself when it's relevant.
+`local-guardrails` expects to be asked for — invoke it by name, or say
+something like "use local-guardrails for this" at the start of a
+`claude-9arm` session.
 
-Inspired by [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
+## Credit
+
+`local-guardrails` was inspired by [`qwen-agent`](https://github.com/thananon/9arm-skills/blob/main/skills/engineering/qwen-agent/SKILL.md)
 in [thananon/9arm-skills](https://github.com/thananon/9arm-skills) by
-9arm / Arm Patinyasakdikul — the `claude-9arm` tooling this skill runs under.
+9arm / Arm Patinyasakdikul — the `claude-9arm` tooling that skill runs under.
 No text is shared between the two; this one stands on its own rules.
