@@ -1,6 +1,7 @@
 ---
 name: local-guardrails
-description: Operating discipline for a local, self-hosted model with a limited context window (e.g. Qwen, running via claude-9arm, opencode, or similar as a fallback when the Claude API is rate-limited). Asks for the session's actual context window size up front and budgets reads against it. Enforces spec-first intake, tight scope, mandatory verification, and honest reporting. Invoke it explicitly at the start of such a session — it does not load on its own.
+description: Operating discipline for a session running on a local, self-hosted model with a limited context window (Qwen via claude-9arm, opencode, or similar) — sizes the session's real context window and budgets reads against it, then enforces spec-first intake, tight scope, verification, and honest reporting.
+disable-model-invocation: true
 ---
 
 # Operating rules

@@ -43,8 +43,9 @@ shows a reviewer where the author was guessing.
 
 ### When to use this
 
-It fires on its own, by design — you can't ask for it, because you can't see
-the moment a model starts guessing. Two hard limits keep it from turning into
+It fires on its own, by design — you're welcome to call it by name, but you
+can't see the moment a model starts guessing, so waiting for you to ask would
+mean it never fires when it matters. Two hard limits keep it from turning into
 noise: guesses that are cheap to reverse never get an entry, and guesses about
 irreversible damage (data loss, money movement, security boundaries, one-way
 migrations) aren't allowed to become entries at all — those stop and ask you.
@@ -72,10 +73,25 @@ included.
 
 ## Use
 
-`assumption-ledger` is meant to load itself when it's relevant.
-`local-guardrails` expects to be asked for — invoke it by name, or say
-something like "use local-guardrails for this" at the start of a
-`claude-9arm` session.
+The two are invoked differently, on purpose.
+
+`assumption-ledger` loads itself when it's relevant, because you can't see
+the moment a model starts guessing — you'd never know when to ask for it.
+
+`local-guardrails` is the opposite: it sets `disable-model-invocation: true`,
+so nothing but you can start it. You do know when you've switched to a local
+model, which makes you the reliable trigger.
+
+Type it as a slash command at the start of the session:
+
+```
+/local-guardrails
+```
+
+Asking for it in prose won't work — that setting keeps its description out of
+context entirely, so the model doesn't know the skill exists until you name
+it. That's the trade: zero context cost every turn, in exchange for you
+remembering to type it.
 
 ## Credit
 
